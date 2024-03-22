@@ -5,6 +5,7 @@ from datetime import datetime
 import json
 import os
 import random
+import warnings
 
 import pandas as pd
 import numpy as np
@@ -15,32 +16,26 @@ from drl.util.load_agent import load_agent
 
 DEVICE = ('cuda:0' if torch.cuda.is_available() else 'cpu')
 REMOVE_HP = ('batch_size', 'critic_fc_dims', 'actor_fc_dims', 'memory_size')
-N_TEST = 99999
+N_TEST = 999999
+
+
+warnings.filterwarnings("ignore")
 
 
 def main():
-    base_path = 'env_design/data/final_experiments/'
-    # base_path = '/home/wolgast/code/HPC/env_design/data/final_experiments/'
+    base_path = 'results/'
 
-    qmarket_paths = ('20230712_qmarket_baseline', '20240110_reward_fct', '20240110_reward_fct_sum5000',
-                    #  '20230712_qmarket_obs', '20230726_qmarket_bad_data',
-                    #  '20231110_qmarket_nstep05', '20231110_qmarket_nstep09',
-                    #  '20231202_qmarket_squash', '20231224_minmax25',
-                    #  '20231224_normalization25', '20240118_unscale_obs',
-                     '20240122_replace2', '20240122_act_obs')
-    eco_paths = ('20230809_base', 
-                #  '20230809_obs', '20230809_bad_data', 
-                 '20240110_reward_fct', '20240110_reward_fct_sum100', 
-                #  '20231110_nstep05', '20231110_nstep09',
-                #  '20231208_squash', '20231213_normalization96', '20240118_unscale_obs',
-                 '20240122_reward2', '20240122_act_obs')
+    qmarket_paths = ('base', 'data', 'res_obs', 'act_obs', 'nstep_05', 
+                     'nstep_09', 'sum_10x', 'replace_min', 'replace_mean')
+    eco_paths = ('base', 'data', 'res_obs', 'act_obs', 'nstep_05', 
+                 'nstep_09', 'sum_10x', 'replace_min', 'replace_mean')
 
     regret_results, mpe_results, invalid_results, viol_results, rel_viol_results = \
         defaultdict(list),defaultdict(list), defaultdict(list), defaultdict(list), defaultdict(list)
     
     for exp_paths in (qmarket_paths, eco_paths):
         opt_results = None
-        env_name = 'qmarket' if 'qmarket' in exp_paths[0] else 'eco'
+        env_name = 'voltage_control' if 'voltage_control' in exp_paths[0] else 'eco_dispatch'
         for exp_path in exp_paths:
             path = os.path.join(base_path, env_name, exp_path)
             print('Path: ', path)
@@ -53,7 +48,7 @@ def main():
                     agent, env, _ = get_agent_data(full_path)
                 except FileNotFoundError:
                     # Training probably not finished or interrupted
-                    print('File not found')
+                    print(f'{full_path}: File not found')
                     continue
                 _, hps, env_design = get_algo_plus_hps(full_path, REMOVE_HP)
                 description = f'{env_name}_{env_design}_{hps}'
@@ -111,7 +106,7 @@ def main():
                 print('Percentage violations: ', round(np.mean(rel_viol_results[description]), 3), ' +/- ', round(np.std(rel_viol_results[description]), 3), f'(Median: {np.median(rel_viol_results[description])})')
                 print('')
 
-            results_path = os.path.join(base_path, 'results')
+            results_path = os.path.join(base_path, 'compact_results')
             os.makedirs(results_path, exist_ok=True)
             time_stamp = datetime.now().strftime("%Y%m%d")
             results_subpath = os.path.join(results_path, time_stamp)
@@ -157,10 +152,10 @@ def get_opt_performance(env):
     possible = []
     np.random.seed(42)
     random.seed(42)
-    for step in env.test_steps:
-        env.reset(step=step, test=True)
-        pos = env.baseline_reward()
-        opt_obj = env.calc_objective(env.net).sum()
+    for step in env.unwrapped.test_steps:
+        env.reset(options={'step': step, 'test': True})
+        pos = env.unwrapped.baseline_reward()
+        opt_obj = env.unwrapped.calc_objective(env.unwrapped.net).sum()
         opt_objs.append(opt_obj)
         possible.append(~np.isnan(pos))
 
@@ -177,14 +172,15 @@ def get_performance(agent, env):
     valids = []
     np.random.seed(42)
     random.seed(42)
-    for step in env.test_steps:
+    for step in env.unwrapped.test_steps:
         done = False
-        obs = env.reset(step=step, test=True)
+        obs, info = env.reset(options={'step': step, 'test': True})
         while not done:
             act = agent.test_act(agent.scale_obs(obs))
-            obs, _, done, info = env.step(act)
+            obs, _, terminated, truncated, info = env.step(act)
+            done = terminated or truncated
 
-        objs.append(env.calc_objective(env.net).sum())
+        objs.append(env.unwrapped.calc_objective(env.unwrapped.net).sum())
         violations.append(info['violations'].sum())
         rel_violations.append(info['percentage_violations'].sum())
         valids.append(info['valids'].all())
@@ -203,14 +199,15 @@ def get_random_performance(env):
     valids = []
     np.random.seed(42)
     random.seed(42)
-    for step in env.test_steps:
+    for step in env.unwrapped.test_steps:
         done = False
-        obs = env.reset(step=step, test=True)
+        obs, info = env.reset(options={'step': step, 'test': True})
         while not done:
             act = env.action_space.sample()
-            obs, _, done, info = env.step(act)
+            obs, _, terminated, truncated, info = env.step(act)
+            done = terminated or truncated
 
-        objs.append(env.calc_objective(env.net).sum())
+        objs.append(env.unwrapped.calc_objective(env.unwrapped.net).sum())
         violations.append(info['violations'].sum())
         rel_violations.append(info['percentage_violations'].sum())
         valids.append(info['valids'].all())
