@@ -11,8 +11,7 @@ SHOWFLIERS = True  # False Required for reward boxplots
 
 
 def main():
-    path = '20240315 (final)/'
-    # path =  '/home/wolgast/code/HPC/env_design/data/final_experiments/results/20240201 (final)/'
+    path = 'compact_results/'
 
     with open(path + 'mpe.json', 'r') as f:
         mpes = json.load(f)
@@ -24,9 +23,6 @@ def main():
 
     base_invalid_qmarket = invalids['qmarket_{}_{}']
     base_invalid_eco = invalids['eco_{}_{}']
-
-    mape_label = 'Mean Absolute Percentage Error [%]'
-    invalid_label = 'Invalid Share [%]'
 
     # Create data boxplots
     mpe_data = [
@@ -73,28 +69,6 @@ def main():
         [base_invalid_eco, invalids["eco_{'reward_function': 'summation', 'ext_grid_pen_kwargs': {'linear_penalty': 100000}}_{}"], invalids["eco_{'reward_function': 'replacement'}_{}"], invalids["eco_{'reward_function': 'replacementA'}_{}"]]
     ]
     create_boxplot_subfigs(mpe_data, invalid_data, ['Sum', 'Sum (10x)', 'Repl. (Mean)', 'Repl. (Min)'], path, 'reward')
-
-    # # Create reward scaling boxplots
-    # mpe_data = [
-    #     [base_mpe_qmarket, mpes["qmarket_{'squash_reward': True}_{}"], mpes["qmarket_{'reward_scaling': 'minmax', 'penalty_weight': 0.25}_{}"], mpes["qmarket_{'reward_scaling': 'normalization', 'penalty_weight': 0.25}_{}"]],
-    #     [base_mpe_eco, mpes["eco_{'squash_reward': True}_{}"], mpes["eco_{'reward_scaling': 'minmax', 'penalty_weight': 0.96}_{}"], mpes["eco_{'reward_scaling': 'normalization', 'penalty_weight': 0.96}_{}"]]
-    # ]
-    # invalid_data = [
-    #     [base_invalid_qmarket, invalids["qmarket_{'squash_reward': True}_{}"], invalids["qmarket_{'reward_scaling': 'minmax', 'penalty_weight': 0.25}_{}"], invalids["qmarket_{'reward_scaling': 'normalization', 'penalty_weight': 0.25}_{}"]],
-    #     [base_invalid_eco, invalids["eco_{'squash_reward': True}_{}"], invalids["eco_{'reward_scaling': 'minmax', 'penalty_weight': 0.96}_{}"], invalids["eco_{'reward_scaling': 'normalization', 'penalty_weight': 0.96}_{}"]]
-    # ]
-    # create_boxplot_subfigs(mpe_data, invalid_data, ['No Scaling', 'Squash', 'Min-Max', 'Normalization'], path, 'scaling')
-
-    # # Create obs scaling boxplots
-    # mpe_data = [
-    #     [base_mpe_qmarket, mpes["qmarket_{}_{'autoscale_obs': False}"]],
-    #     [base_mpe_eco, mpes["eco_{}_{'autoscale_obs': False}"]]
-    # ]
-    # invalid_data = [
-    #     [base_invalid_qmarket, invalids["qmarket_{}_{'autoscale_obs': False}"]],
-    #     [base_invalid_eco, invalids["eco_{}_{'autoscale_obs': False}"]]
-    # ]
-    # create_boxplot_subfigs(mpe_data, invalid_data, ['Min-Max', 'No Scaling'], path, name)
 
 
 def create_boxplot_subfigs(mpe_data, invalid_data, labels, path, name):
