@@ -1,0 +1,5 @@
+# DRL algorithms used (WIP)
+git+https://gitlab.com/thomaswolgast/drl.git@c718b90ca5e8a9c3f692253e8c32e0ce298ec5c7
+
+# RL-OPF environment framework (WIP)
+git+https://gitlab.com/thomaswolgast/mlopf.git@3eb987f7a586e51c5fd148c462ead5377718e2fd
