@@ -100,14 +100,5 @@ def create_boxplot_subfigs(mpe_data, invalid_data, labels, path, name):
     plt.close()
 
 
-def create_boxplot(data, labels, ylabel, path):
-    plt.figure(figsize=(2*3.15, 2*1.97))
-    plt.boxplot(data, labels=labels)
-    plt.ylabel(ylabel)
-    plt.savefig(path, bbox_inches='tight', pad_inches=0.1)
-    plt.show()
-    plt.close()
-
-
 if __name__ == '__main__':
     main()
