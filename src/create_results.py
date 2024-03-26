@@ -33,9 +33,9 @@ def main():
     regret_results, mpe_results, invalid_results, viol_results, rel_viol_results = \
         defaultdict(list),defaultdict(list), defaultdict(list), defaultdict(list), defaultdict(list)
     
-    for exp_paths in (qmarket_paths, eco_paths):
+    for exp_paths, env_name in zip(
+            (qmarket_paths, eco_paths), ('voltage_control', 'eco_dispatch')):
         opt_results = None
-        env_name = 'voltage_control' if 'voltage_control' in exp_paths[0] else 'eco_dispatch'
         for exp_path in exp_paths:
             path = os.path.join(base_path, env_name, exp_path)
             print('Path: ', path)
