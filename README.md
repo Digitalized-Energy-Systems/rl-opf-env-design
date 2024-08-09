@@ -1,5 +1,5 @@
 # Learning the Optimal Power Flow: Environment Design Matters
-This is the accompanying repository to the publication "Learning the Optimal Power Flow: Environment Design Matters" (TODO: Add URL to paper after publication).
+This is the accompanying repository to the publication "[Learning the Optimal Power Flow: Environment Design Matters](https://arxiv.org/abs/2403.17831)".
 
 Note that most source code implemented for this paper can be found in https://gitlab.com/thomaswolgast/drl (RL algorithms) and https://gitlab.com/thomaswolgast/mlopf (RL environments), which are work-in-progress and therefore continued in different repositories. 
 
@@ -14,9 +14,9 @@ Note: [torch](https://pytorch.org/get-started/locally/) sometimes makes problems
 - `requirements.txt`: Reference to the two previously mentioned repositories for simple installation. 
 - `src/`: The source code to aggregate the results and create the figures of this exact publication. The source code for running the experiments is in external repositories.
 - `compact_results/`: Collection of JSON files with compact representations of the results with different metrics. (created with `create_results.py` and used by `boxplots.py`)
-- `results/`: **Optional folder that can be downloaded from Zenodo** (TODO: Reference after publication). Contains model weights, hyperparameter information, and agent performances in the course of training (e.g. MAPE every 30k steps). The model weights are required to run `create_results.py`. The training performances are required to plot performance during training, if required. Download this folder from Zenodo and place it in this repository to work with the data. 
+- `results/`: **[Optional folder that can be downloaded from Zenodo](https://zenodo.org/records/13284446)**. Contains model weights, hyperparameter information, and agent performances in the course of training (e.g. MAPE every 30k steps). The model weights are required to run `create_results.py`. The training performances are required to plot performance during training, if required. Download this folder from Zenodo and place it in this repository to work with the data. 
 
-Attention: Sometimes, the VoltageControl environment is called QMarketEnv because of a name change during development. 
+Attention: Sometimes, the VoltageControl environment is called QMarketEnv because of a name change during development. Both names are synonymous in the context of this work. 
 
 # Contact
 For questions or feedback, contact the first author Thomas Wolgast (thomas.wolgast@uol.de). 
