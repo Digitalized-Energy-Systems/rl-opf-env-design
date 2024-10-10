@@ -1,6 +1,6 @@
 # Learning the Optimal Power Flow: Environment Design Matters
-This is the accompanying repository to the publication "[Learning the Optimal Power Flow: Environment Design Matters](https://www.sciencedirect.com/science/article/pii/S2666546824000764)" by Thomas Wolgast[🔗 ORCID](https://orcid.org/0000-0002-9042-9964)
- and Astrid Nieße[🔗 ORCID](https://orcid.org/0000-0003-1881-9172).
+This is the accompanying repository to the publication "[Learning the Optimal Power Flow: Environment Design Matters](https://www.sciencedirect.com/science/article/pii/S2666546824000764)" by [Thomas Wolgast](https://orcid.org/0000-0002-9042-9964)
+ and [Astrid Nieße](https://orcid.org/0000-0003-1881-9172).
 
 Note that most source code implemented for this paper can be found in 
 https://gitlab.com/thomaswolgast/drl (RL algorithms) and 
