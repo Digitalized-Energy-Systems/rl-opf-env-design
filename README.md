@@ -1,11 +1,15 @@
 # Learning the Optimal Power Flow: Environment Design Matters
-This is the accompanying repository to the publication "[Learning the Optimal Power Flow: Environment Design Matters](https://arxiv.org/abs/2403.17831)".
+This is the accompanying repository to the publication "[Learning the Optimal Power Flow: Environment Design Matters](https://www.sciencedirect.com/science/article/pii/S2666546824000764)".
 
 Note that most source code implemented for this paper can be found in 
 https://gitlab.com/thomaswolgast/drl (RL algorithms) and 
 https://github.com/Digitalized-Energy-Systems/opfgym 
 (RL environments, warning: repository re-named and moved from GitLab to GitHub), 
 which are work-in-progress and therefore continued in different repositories. 
+
+Especially the environment framework was significantly improved in the meantime.
+Please visit the GitHub repository above if you want to work with the most 
+recent version
 
 # Installation
 All experiments were performed with python 3.8. In an virtualenv, run `pip install -r requirements.txt` to install all dependencies in the right version at publication time (not the most recent). 
