@@ -1,6 +1,8 @@
 # Learning the Optimal Power Flow: Environment Design Matters
 This is the accompanying repository to the publication "[Learning the Optimal Power Flow: Environment Design Matters](https://www.sciencedirect.com/science/article/pii/S2666546824000764)" by [Thomas Wolgast](https://orcid.org/0000-0002-9042-9964)
- and [Astrid Nieße](https://orcid.org/0000-0003-1881-9172).
+ and [Astrid Nieße](https://orcid.org/0000-0003-1881-9172). 
+ 
+If you are interested in this research, you might also want to check our follow-up work where we expanded our research in all directions: "[A General Approach of Automated Environment Design for Learning the Optimal Power Flow](https://dl.acm.org/doi/full/10.1145/3679240.3734626)"
 
 Note that most source code implemented for this paper can be found in 
 https://gitlab.com/thomaswolgast/drl (RL algorithms) and 
@@ -10,7 +12,7 @@ which are work-in-progress and therefore continued in different repositories.
 
 Especially the environment framework was significantly improved in the meantime.
 Please visit the GitHub repository above if you want to work with the most 
-recent version
+recent version. 
 
 # Installation
 All experiments were performed with python 3.8. In an virtualenv, run `pip install -r requirements.txt` to install all dependencies in the right version at publication time (not the most recent). 
